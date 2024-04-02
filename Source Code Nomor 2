@@ -1,0 +1,44 @@
+#include <stdio.h>
+
+int twoStacks(int maxSum, int a[], int n, int b[], int m) {
+    int sum = 0, count = 0, temp = 0, i = 0, j = 0;
+
+    while (i < n && sum + a[i] <= maxSum) { 
+        sum += a[i++];
+    }
+    count = i;
+
+    while (j < m && i >= 0) { 
+        sum += b[j++];
+        while (sum > maxSum && i > 0) {
+            sum -= a[--i];
+        }
+        if (sum <= maxSum && i + j > count) {
+            count = i + j;
+        }
+    }
+    return count;
+}
+
+int main() {
+    int testCases;
+    scanf("%d", &testCases);
+    
+    while (testCases--) {
+        int sizeA, sizeB, maxSum;
+        scanf("%d%d%d", &sizeA, &sizeB, &maxSum);
+        
+        int stackA[sizeA], stackB[sizeB];
+        
+        for (int i = 0; i < sizeA; i++) {
+            scanf("%d", &stackA[i]);
+        }
+        
+        for (int i = 0; i < sizeB; i++) {
+            scanf("%d", &stackB[i]);
+        }
+        
+        printf("%d\n", twoStacks(maxSum, stackA, sizeA, stackB, sizeB));
+    }
+    return 0;
+}
